@@ -15,6 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.MalformedURLException;
 import java.time.Duration;
+import java.util.List;
 
 public class demoQa {
 
@@ -57,15 +58,151 @@ public class demoQa {
         driver.findElement(By.id("dateOfBirthInput")).clear();
         driver.findElement(By.id("dateOfBirthInput")).sendKeys("24 Dec 1991");
 
-        driver.findElement(By.id("subjectsInput")).sendKeys("Maths");
-        driver.findElement(By.id("subjectsInput")).sendKeys("Chemistry");
+        String textToSelectMaths = "Maths";
+        WebElement subjectsInput = driver.findElement(By.id("subjectsInput"));
+        subjectsInput.sendKeys("Maths");
+        List<WebElement> optionsToSelectMaths = driver.findElements(By.cssSelector(".subjects-auto-complete__menu"));
+        for(WebElement option : optionsToSelectMaths) {
+            System.out.println(option);
+            if (option.getText().equals(textToSelectMaths)) {
+                System.out.println("Trying to select: " + textToSelectMaths);
+                option.click();
+                break;
+            }
+        }
+
+        String textToSelectChemistry = "Chemistry";
+        subjectsInput.sendKeys("Chemistry");
+        List<WebElement> optionsToSelect = driver.findElements(By.cssSelector(".subjects-auto-complete__menu"));
+        for(WebElement option : optionsToSelect) {
+            System.out.println(option);
+            if (option.getText().equals(textToSelectChemistry)) {
+                System.out.println("Trying to select: " + textToSelectChemistry);
+                option.click();
+                break;
+            }
+        }
+//        actions.moveToElement(subjectsInput).click().build().perform();
+//        driver.findElement(By.id("subjectsInput")).sendKeys("Maths");
+//        WebElement subjectsChoise = driver.f
+//        actions.moveToElement(subjectsInput).sendKeys(Keys.RETURN);
+//        Select select = new Select(subjectsInput);
+//        select.selectByVisibleText("Maths");
+
+
+//        driver.findElement(By.id("subjectsInput")).sendKeys("Chemistry");
 
         WebElement hobbiesCheckbox1 = driver.findElement(By.id("hobbies-checkbox-1"));
         actions.moveToElement(hobbiesCheckbox1).click().build().perform();
 
-
         String filePath = "C:\\Users\\Admin\\Downloads\\photo_2024-03-21_19-24-07.jpg";
         driver.findElement(By.id("uploadPicture")).sendKeys(filePath);
+
+        driver.findElement(By.id("currentAddress")).sendKeys("Russia, Novosibirsk city");
+
+        boolean city = driver.findElement(By.id("city")).isDisplayed();
+        Assertions.assertTrue(city);
+
+//        WebElement selectDropdownState = driver.findElement(By.id("state"));
+//        Select selectState = new Select(selectDropdownState);
+//        selectState.selectByIndex(3);
+//
+//        WebElement selectDropdownCity = driver.findElement(By.id("city"));
+//        Select selectCity = new Select(selectDropdownCity);
+//        selectCity.selectByIndex(0);
+//        Select select = new Select(selectDropdownState);
+//        select.selectByVisibleText("Rajasthan");
+
+//        WebElement selectState = driver.findElement(By.id("state"));
+//        actions.moveToElement(selectState).click();
+//        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("[id='state'] > div:last-child > div ")));
+//        List<WebElement> optionsToSelectState = driver.findElements(By.cssSelector("[id='state'] > div:last-child > div "));
+//        for(WebElement option : optionsToSelectState) {
+//            System.out.println(option);
+//            option.click();
+//        }
+//        WebElement selectRajasthan = driver.findElement(By.cssSelector("[id='state'] > div:last-child > div > div:last-child"));
+//        actions.moveToElement(selectRajasthan).click();
+
+//        WebElement selectCity = driver.findElement(By.id("city"));
+//        actions.moveToElement(selectCity).click();
+//        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("[id='city'] > div:last-child > div")));
+//        List<WebElement> optionsToSelectCity = driver.findElements(By.cssSelector("[id='city'] > div:last-child > div "));
+//        for(WebElement option : optionsToSelectCity) {
+//            System.out.println(option);
+//            option.click();
+//            }
+//        WebElement selectJaipur = driver.findElement(By.cssSelector("[id='city'] > div:last-child > div > div:first-child"));
+//        actions.moveToElement(selectJaipur).click();
+
+//        WebElement selectRajasthan = driver.findElement(By.cssSelector("[id='state'] > div:last-child > div > div:last-child"));
+//        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("[id='state'] > div:last-child > div > div:last-child")));
+//        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[id='state'] > div:last-child > div > div:last-child")));
+//        actions.moveToElement(selectRajasthan).click().build().perform();
+//
+//        WebElement selectCity = driver.findElement(By.id("city"));
+//        actions.moveToElement(selectCity).click().build().perform();
+//        WebElement selectJaipur = driver.findElement(By.cssSelector("[id='city'] > div:last-child > div > div:first-child"));
+//        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("[id='city'] > div:last-child > div > div:last-child")));
+//        actions.moveToElement(selectJaipur).click().build().perform();
+//        String textToSelectRajasthan = "Rajasthan";
+//        WebElement selectState = driver.findElement(By.id("state"));
+//        actions.moveToElement(selectState).click().build().perform();
+//        selectState.click();
+//        List<WebElement> optionsToSelectState = driver.findElements(By.cssSelector("[id='state'] > div:last-child > div"));
+//        for(WebElement option : optionsToSelectState) {
+//            System.out.println(option);
+//            if (option.getText().equals(textToSelectRajasthan)) {
+//                System.out.println("Trying to select: " + textToSelectRajasthan);
+//                option.click();
+//                break;
+//            }
+//        }
+
+//        WebElement selectCity = driver.findElement(By.id("city"));
+//        actions.moveToElement(selectCity).click().build().perform();
+//        String textToSelectJaipur = "Jaipur";
+//        WebElement selectCity = driver.findElement(By.cssSelector("id=['city']"));
+//        actions.moveToElement(selectCity).click().build().perform();
+//        selectCity.click();
+//        List<WebElement> optionsToSelectCity = driver.findElements(By.cssSelector("[id='city'] > div:last-child > div"));
+//        for(WebElement option : optionsToSelectCity) {
+//            System.out.println(option);
+//            if (option.getText().equals(textToSelectRajasthan)) {
+//                System.out.println("Trying to select: " + textToSelectJaipur);
+//                option.click();
+//                break;
+//            }
+//        }
+
+//        WebElement selectState = driver.findElement(By.id("state"));
+//        actions.moveToElement(selectState).click().build().perform();
+//        WebElement selectRajasthan = driver.findElement(By.cssSelector("[id='state'] > div:last-child > div > div:last-child"));
+//        actions.moveToElement(selectRajasthan).click().build().perform();
+//
+//        WebElement selectCity = driver.findElement(By.id("city"));
+//        actions.moveToElement(selectCity).click().build().perform();
+//        WebElement selectJaipur = driver.findElement(By.cssSelector("[id='city'] > div:last-child > div > div:first-child"));
+//        actions.moveToElement(selectJaipur).click().build().perform();
+//
+//        String textToSelectRajasthan = "Rajasthan";
+//        WebElement selectState = driver.findElement(By.id("state"));
+//        actions.moveToElement(selectState).click().build().perform();
+//        selectState.click();
+//        List<WebElement> optionsToSelectState = driver.findElements(By.cssSelector("[id='state'] > div:last-child > div"));
+//        for(WebElement option : optionsToSelectState) {
+//            System.out.println(option);
+//            if (option.getText().equals(textToSelectRajasthan)) {
+//                System.out.println("Trying to select: " + textToSelectRajasthan);
+//                option.click();
+//                break;
+//            }
+//        }
+
+
+
+
+//
 
         submitBtn.submit();
 //        Assertions.assertEquals("true", hobbiesCheckbox1.getAttribute("checked"));
@@ -92,7 +229,7 @@ public class demoQa {
 //        WebElement nameInput = driver.findElement(By.cssSelector("#author"));
 //        nameInput.sendKeys("name");
 //
-        Thread.sleep(5000);
+        Thread.sleep(3000);
 //
 //        Assertions.assertEquals("name", nameInput.getAttribute("value"));
     }
