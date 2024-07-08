@@ -1,6 +1,7 @@
 package portfolio;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +14,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.net.MalformedURLException;
 import java.time.Duration;
 import java.util.List;
 
@@ -33,10 +33,11 @@ public class demoQa {
     }
 
     @Test
-    public void checkAlerts() throws InterruptedException, MalformedURLException {
+    public void checkAlerts() throws InterruptedException {
 
         Actions actions = new Actions(driver);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5), Duration.ofMillis(250));
+        SoftAssertions softAssert = new SoftAssertions();
 
         wait.until(ExpectedConditions.elementToBeClickable(By.id("submit")));
 
@@ -45,24 +46,49 @@ public class demoQa {
         WebElement userForm = driver.findElement(By.id("userForm"));
         Assertions.assertEquals("was-validated", userForm.getAttribute("class"));
 
-        driver.findElement(By.cssSelector("[placeholder='First Name']")).sendKeys("Evgeny");
-        driver.findElement(By.cssSelector("[placeholder='Last Name']")).sendKeys("Yaroslavtsev");
-        driver.findElement(By.cssSelector("[placeholder='name@example.com']")).sendKeys("ye@ya.ru");
+        String fName = "Evgeny";
+        String lName = "Yaroslavtsev";
+        String eMail = "ye@ya.ru";
+        String number = "1234567890As&ы";
+        String validNumber = "1234567890";
+        String date = "24 Dec 1991";
+        String currentAddress = "Russia, Novosibirsk city";
+        String nameStudent = "Student Name";
+        String emailStudent = "Student Email";
+        String gender = "Gender";
+        String genderValue = "Male";
+        String mobile = "Mobile";
+        String dateBirth = "Date of Birth";
+        String subjects = "Subjects";
+        String textToSelectMaths = "Maths";
+        String textToSelectChemistry = "Chemistry";
+        String hobbies = "Hobbies";
+        String hobbiesSports = "Sports";
+        String filePath = "C:\\Users\\Admin\\Downloads\\photo_2024-03-21_19-24-07.jpg";
+        String pictureName = "photo_2024-03-21_19-24-07.jpg";
+        String picture = "Picture";
+        String address = "Address";
+        String stateAndCity = "State and City";
+
+        driver.findElement(By.cssSelector("[placeholder='First Name']")).sendKeys(fName);
+
+        driver.findElement(By.cssSelector("[placeholder='Last Name']")).sendKeys(lName);
+
+        driver.findElement(By.cssSelector("[placeholder='name@example.com']")).sendKeys(eMail);
 
         WebElement genderCheckBox = driver.findElement(By.id("gender-radio-1"));
         actions.moveToElement(genderCheckBox).click().build().perform();
         Assertions.assertEquals("true", genderCheckBox.getAttribute("checked"));
 
-        driver.findElement(By.id("userNumber")).sendKeys("1234567890As&ы");
+        driver.findElement(By.id("userNumber")).sendKeys(number);
 
-        driver.findElement(By.id("dateOfBirthInput")).clear();
-        driver.findElement(By.id("dateOfBirthInput")).sendKeys("24 Dec 1991");
+//        driver.findElement(By.id("dateOfBirthInput")).clear();
+//        driver.findElement(By.id("dateOfBirthInput")).sendKeys(date);
 
-        String textToSelectMaths = "Maths";
         WebElement subjectsInput = driver.findElement(By.id("subjectsInput"));
-        subjectsInput.sendKeys("Maths");
+        subjectsInput.sendKeys(textToSelectMaths);
         List<WebElement> optionsToSelectMaths = driver.findElements(By.cssSelector(".subjects-auto-complete__menu"));
-        for(WebElement option : optionsToSelectMaths) {
+        for (WebElement option : optionsToSelectMaths) {
             System.out.println(option);
             if (option.getText().equals(textToSelectMaths)) {
                 System.out.println("Trying to select: " + textToSelectMaths);
@@ -71,10 +97,9 @@ public class demoQa {
             }
         }
 
-        String textToSelectChemistry = "Chemistry";
-        subjectsInput.sendKeys("Chemistry");
+        subjectsInput.sendKeys(textToSelectChemistry);
         List<WebElement> optionsToSelect = driver.findElements(By.cssSelector(".subjects-auto-complete__menu"));
-        for(WebElement option : optionsToSelect) {
+        for (WebElement option : optionsToSelect) {
             System.out.println(option);
             if (option.getText().equals(textToSelectChemistry)) {
                 System.out.println("Trying to select: " + textToSelectChemistry);
@@ -82,175 +107,77 @@ public class demoQa {
                 break;
             }
         }
-//        actions.moveToElement(subjectsInput).click().build().perform();
-//        driver.findElement(By.id("subjectsInput")).sendKeys("Maths");
-//        WebElement subjectsChoise = driver.f
-//        actions.moveToElement(subjectsInput).sendKeys(Keys.RETURN);
-//        Select select = new Select(subjectsInput);
-//        select.selectByVisibleText("Maths");
-
-
-//        driver.findElement(By.id("subjectsInput")).sendKeys("Chemistry");
 
         WebElement hobbiesCheckbox1 = driver.findElement(By.id("hobbies-checkbox-1"));
         actions.moveToElement(hobbiesCheckbox1).click().build().perform();
 
-        String filePath = "C:\\Users\\Admin\\Downloads\\photo_2024-03-21_19-24-07.jpg";
         driver.findElement(By.id("uploadPicture")).sendKeys(filePath);
 
-        driver.findElement(By.id("currentAddress")).sendKeys("Russia, Novosibirsk city");
-
-        boolean city = driver.findElement(By.id("city")).isDisplayed();
-        Assertions.assertTrue(city);
-
-//        WebElement selectDropdownState = driver.findElement(By.id("state"));
-//        Select selectState = new Select(selectDropdownState);
-//        selectState.selectByIndex(3);
-//
-//        WebElement selectDropdownCity = driver.findElement(By.id("city"));
-//        Select selectCity = new Select(selectDropdownCity);
-//        selectCity.selectByIndex(0);
-//        Select select = new Select(selectDropdownState);
-//        select.selectByVisibleText("Rajasthan");
-
-//        WebElement selectState = driver.findElement(By.id("state"));
-//        actions.moveToElement(selectState).click();
-//        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("[id='state'] > div:last-child > div ")));
-//        List<WebElement> optionsToSelectState = driver.findElements(By.cssSelector("[id='state'] > div:last-child > div "));
-//        for(WebElement option : optionsToSelectState) {
-//            System.out.println(option);
-//            option.click();
-//        }
-//        WebElement selectRajasthan = driver.findElement(By.cssSelector("[id='state'] > div:last-child > div > div:last-child"));
-//        actions.moveToElement(selectRajasthan).click();
-
-//        WebElement selectCity = driver.findElement(By.id("city"));
-//        actions.moveToElement(selectCity).click();
-//        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("[id='city'] > div:last-child > div")));
-//        List<WebElement> optionsToSelectCity = driver.findElements(By.cssSelector("[id='city'] > div:last-child > div "));
-//        for(WebElement option : optionsToSelectCity) {
-//            System.out.println(option);
-//            option.click();
-//            }
-//        WebElement selectJaipur = driver.findElement(By.cssSelector("[id='city'] > div:last-child > div > div:first-child"));
-//        actions.moveToElement(selectJaipur).click();
-
-//        WebElement selectRajasthan = driver.findElement(By.cssSelector("[id='state'] > div:last-child > div > div:last-child"));
-//        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("[id='state'] > div:last-child > div > div:last-child")));
-//        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[id='state'] > div:last-child > div > div:last-child")));
-//        actions.moveToElement(selectRajasthan).click().build().perform();
-//
-//        WebElement selectCity = driver.findElement(By.id("city"));
-//        actions.moveToElement(selectCity).click().build().perform();
-//        WebElement selectJaipur = driver.findElement(By.cssSelector("[id='city'] > div:last-child > div > div:first-child"));
-//        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("[id='city'] > div:last-child > div > div:last-child")));
-//        actions.moveToElement(selectJaipur).click().build().perform();
-//        String textToSelectRajasthan = "Rajasthan";
-//        WebElement selectState = driver.findElement(By.id("state"));
-//        actions.moveToElement(selectState).click().build().perform();
-//        selectState.click();
-//        List<WebElement> optionsToSelectState = driver.findElements(By.cssSelector("[id='state'] > div:last-child > div"));
-//        for(WebElement option : optionsToSelectState) {
-//            System.out.println(option);
-//            if (option.getText().equals(textToSelectRajasthan)) {
-//                System.out.println("Trying to select: " + textToSelectRajasthan);
-//                option.click();
-//                break;
-//            }
-//        }
-
-//        WebElement selectCity = driver.findElement(By.id("city"));
-//        actions.moveToElement(selectCity).click().build().perform();
-//        String textToSelectJaipur = "Jaipur";
-//        WebElement selectCity = driver.findElement(By.cssSelector("id=['city']"));
-//        actions.moveToElement(selectCity).click().build().perform();
-//        selectCity.click();
-//        List<WebElement> optionsToSelectCity = driver.findElements(By.cssSelector("[id='city'] > div:last-child > div"));
-//        for(WebElement option : optionsToSelectCity) {
-//            System.out.println(option);
-//            if (option.getText().equals(textToSelectRajasthan)) {
-//                System.out.println("Trying to select: " + textToSelectJaipur);
-//                option.click();
-//                break;
-//            }
-//        }
-
-//        WebElement selectState = driver.findElement(By.id("state"));
-//        actions.moveToElement(selectState).click().build().perform();
-//        WebElement selectRajasthan = driver.findElement(By.cssSelector("[id='state'] > div:last-child > div > div:last-child"));
-//        actions.moveToElement(selectRajasthan).click().build().perform();
-//
-//        WebElement selectCity = driver.findElement(By.id("city"));
-//        actions.moveToElement(selectCity).click().build().perform();
-//        WebElement selectJaipur = driver.findElement(By.cssSelector("[id='city'] > div:last-child > div > div:first-child"));
-//        actions.moveToElement(selectJaipur).click().build().perform();
-//
-//        String textToSelectRajasthan = "Rajasthan";
-//        WebElement selectState = driver.findElement(By.id("state"));
-//        actions.moveToElement(selectState).click().build().perform();
-//        selectState.click();
-//        List<WebElement> optionsToSelectState = driver.findElements(By.cssSelector("[id='state'] > div:last-child > div"));
-//        for(WebElement option : optionsToSelectState) {
-//            System.out.println(option);
-//            if (option.getText().equals(textToSelectRajasthan)) {
-//                System.out.println("Trying to select: " + textToSelectRajasthan);
-//                option.click();
-//                break;
-//            }
-//        }
-
-
-
-
-//
-
+        driver.findElement(By.id("currentAddress")).sendKeys(currentAddress);
         submitBtn.submit();
-//        Assertions.assertEquals("true", hobbiesCheckbox1.getAttribute("checked"));
-
-//        WebElement inputF = driver.findElement(By.id(“dateOfBirth”));
-//
-//        WebElement selectDropdown = driver.findElement(By.className(".react-datepicker__month-select"));
-//        Select select = new Select(selectDropdown);
-//        select.selectByVisibleText("December");
-
-//        WebElement genderCheckBox = driver.findElement(By.cssSelector("[id='gender-radio-1']"));
-//        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[id='gender-radio-1']")));
-//        genderCheckBox.click();
-
-//        driver.findElement(By.cssSelector("[id='gender-radio-1']")).click();
-
-
-//        WebElement testingRadiobutton = driver.findElement(By.cssSelector("input[name='CourseType'][value='Testing']"));
-//        testingRadiobutton.click();
-//        Thread.sleep(5000);
-//
-//        Assertions.assertEquals("true", testingRadiobutton.getAttribute("checked"));
-
-//        WebElement nameInput = driver.findElement(By.cssSelector("#author"));
-//        nameInput.sendKeys("name");
-//
         Thread.sleep(3000);
-//
-//        Assertions.assertEquals("name", nameInput.getAttribute("value"));
+
+        WebElement row1Label = driver.findElement(By.cssSelector("table > tbody > tr:nth-child(1) > td:first-child"));
+        softAssert.assertThat(row1Label.getText()).isEqualTo(nameStudent);
+
+        WebElement row2Label = driver.findElement(By.cssSelector("table > tbody > tr:nth-child(2) > td:first-child"));
+        softAssert.assertThat(row2Label.getText()).isEqualTo(emailStudent);
+
+        WebElement row3Label = driver.findElement(By.cssSelector("table > tbody > tr:nth-child(3) > td:first-child"));
+        softAssert.assertThat(row3Label.getText()).isEqualTo(gender);
+
+        WebElement row4Label = driver.findElement(By.cssSelector("table > tbody > tr:nth-child(4) > td:first-child"));
+        softAssert.assertThat(row4Label.getText()).isEqualTo(mobile);
+
+        WebElement row5Label = driver.findElement(By.cssSelector("table > tbody > tr:nth-child(5) > td:first-child"));
+        softAssert.assertThat(row5Label.getText()).isEqualTo(dateBirth);
+
+        WebElement row6Label = driver.findElement(By.cssSelector("table > tbody > tr:nth-child(6) > td:first-child"));
+        softAssert.assertThat(row6Label.getText()).isEqualTo(subjects);
+
+        WebElement row7Label = driver.findElement(By.cssSelector("table > tbody > tr:nth-child(7) > td:first-child"));
+        softAssert.assertThat(row7Label.getText()).isEqualTo(hobbies);
+
+        WebElement row8Label = driver.findElement(By.cssSelector("table > tbody > tr:nth-child(8) > td:first-child"));
+        softAssert.assertThat(row8Label.getText()).isEqualTo(picture);
+
+        WebElement row9Label = driver.findElement(By.cssSelector("table > tbody > tr:nth-child(9) > td:first-child"));
+        softAssert.assertThat(row9Label.getText()).isEqualTo(address);
+
+        WebElement row10Label = driver.findElement(By.cssSelector("table > tbody > tr:nth-child(10) > td:first-child"));
+        softAssert.assertThat(row10Label.getText()).isEqualTo(stateAndCity);
+
+
+        WebElement row1Value = driver.findElement(By.cssSelector("table > tbody > tr:nth-child(1) > td:last-child"));
+        softAssert.assertThat(row1Value.getText()).isEqualTo(fName + " " + lName);
+
+        WebElement row2Value = driver.findElement(By.cssSelector("table > tbody > tr:nth-child(2) > td:last-child"));
+        softAssert.assertThat(row2Value.getText()).isEqualTo(eMail);
+
+        WebElement row3Value = driver.findElement(By.cssSelector("table > tbody > tr:nth-child(3) > td:last-child"));
+        softAssert.assertThat(row3Value.getText()).isEqualTo(genderValue);
+
+        WebElement row4Value = driver.findElement(By.cssSelector("table > tbody > tr:nth-child(4) > td:last-child"));
+        softAssert.assertThat(row4Value.getText()).isEqualTo(validNumber);
+
+//        WebElement row5Value = driver.findElement(By.cssSelector("table > tbody > tr:nth-child(5) > td:last-child"));
+//        softAssert.assertThat(row5Value.getText()).isEqualTo(date);
+
+        WebElement row6Value = driver.findElement(By.cssSelector("table > tbody > tr:nth-child(6) > td:last-child"));
+        softAssert.assertThat(row6Value.getText()).isEqualTo(textToSelectMaths + ", " + textToSelectChemistry);
+
+        WebElement row7Value = driver.findElement(By.cssSelector("table > tbody > tr:nth-child(7) > td:last-child"));
+        softAssert.assertThat(row7Value.getText()).isEqualTo(hobbiesSports);
+
+        WebElement row8Value = driver.findElement(By.cssSelector("table > tbody > tr:nth-child(8) > td:last-child"));
+        softAssert.assertThat(row8Value.getText()).isEqualTo(pictureName);
+
+        WebElement row9Value = driver.findElement(By.cssSelector("table > tbody > tr:nth-child(9) > td:last-child"));
+        softAssert.assertThat(row9Value.getText()).isEqualTo(currentAddress);
+
+        softAssert.assertAll();
     }
 
-//    @Test
-//    public void s7ExplicitWaitTest() throws InterruptedException {
-//        driver.get("https://news.s7.ru/news?id=13441");
-//        driver.manage().window().maximize();
-//
-//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30), Duration.ofMillis(250));
-//
-//        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".comments-block-wrapper")));
-////        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-//
-//        WebElement nameInput = driver.findElement(By.cssSelector("#author"));
-//        nameInput.sendKeys("name");
-//
-//        Thread.sleep(3000);
-//
-//        Assertions.assertEquals("name", nameInput.getAttribute("value"));
-//    }
 
     @AfterEach
     public void tearDown() {
